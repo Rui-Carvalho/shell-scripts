@@ -4,9 +4,7 @@
 #                  SETTINGS
 # ===========================================
 source parse_yml.sh
-eval $(parse_yaml config.yml)
-echo $git_account_user
-exit 0
+eval $(parse_yaml config.yml "config_")
 
 NOTIFY_EMAIL=rui.carvalho@businessoffashion.com
 ALERT_TO_EMAIL=alert@localhost
@@ -76,8 +74,8 @@ function sendEmailThroughGmail {
     CONTENT_FILE="$HOME/mail.txt"
     URL="smtps://smtp.gmail.com:465"
 
-    GMAIL_EMAIL="rui.carvalho@businessoffashion.com"
-    GMAIL_APP_PASSWORD="ugwaszhbtkvmafbt"
+    GMAIL_EMAIL="$config_git_account_user"
+    GMAIL_APP_PASSWORD="$config_git_account_pass"
 
     MAIL_FROM="alerts@businessoffashion.com"
     NAME_FROM="Rui Carvalho"
@@ -114,4 +112,5 @@ EOF
 # ===========================================
 #                  RUN MAIN
 # ===========================================
-main
+sendEmailThroughGmail
+#main

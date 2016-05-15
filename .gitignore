@@ -1,4 +1,4 @@
-websites/config.yml
+config_local.yml
 ._*
 .DS_Store
 ._.DS_Store

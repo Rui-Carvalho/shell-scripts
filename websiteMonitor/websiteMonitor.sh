@@ -56,6 +56,10 @@ function whenServerGoesUp {
 }
 
 function whenServerGoesDown {
+    # Execute all commands defined to run when server goes down
+    for (( i = 0; i < ${#config_COMMANDS_WHEN_SERVER_GOES_DOWN[@]} ; i++ )); do
+        eval ${config_COMMANDS_WHEN_SERVER_GOES_DOWN[$i]}
+    done
     sendEmailThroughGmail "DOWN"
     IS_DOWN=1
 }

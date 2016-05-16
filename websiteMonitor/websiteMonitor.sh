@@ -4,7 +4,12 @@
 #                  SETTINGS
 # ===========================================
 source parse_yml.sh
-CONFIG=$(parse_yaml config.yml "config_")
+if [ "$ENV" = "local" ]; then
+    CONFIG_FILE="config_local.yml"
+else
+    CONFIG_FILE="config.yml"
+fi
+CONFIG=$(parse_yaml $CONFIG_FILE "config_")
 eval $CONFIG
 IS_DOWN=0
 
@@ -61,7 +66,12 @@ function whenServerGoesDown {
         eval ${config_COMMANDS_WHEN_SERVER_GOES_DOWN[$i]}
     done
     sendEmailThroughGmail "DOWN"
+    #sendSMS 00447775696076 "$config_WEBSITE has gone DOWN at `date`"
     IS_DOWN=1
+}
+
+function sendSMS {
+    curl -X POST http://textbelt.com/intl -d number=$1 -d "$2"
 }
 
 function sendEmailThroughGmail {
